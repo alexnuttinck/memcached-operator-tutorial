@@ -18,7 +18,7 @@ metadata:
     capabilities: Basic Install
     operators.operatorframework.io/builder: operator-sdk-v1.11.0+git
     operators.operatorframework.io/project_layout: go.kubebuilder.io/v3
-  name: memcached-operator-tutorial.v0.0.1
+  name: memcached-operator-tutorial.v0.0.2
   namespace: placeholder
 spec:
   apiservicedefinitions: {}
@@ -38,6 +38,18 @@ spec:
     spec:
       clusterPermissions:
       - rules:
+        - apiGroups:
+          - apps
+          resources:
+          - deployments
+          verbs:
+          - create
+          - delete
+          - get
+          - list
+          - patch
+          - update
+          - watch
         - apiGroups:
           - cache.example.com
           resources:
@@ -64,6 +76,13 @@ spec:
           - get
           - patch
           - update
+        - apiGroups:
+          - ""
+          resources:
+          - pods
+          verbs:
+          - get
+          - list
         - apiGroups:
           - authentication.k8s.io
           resources:
@@ -109,7 +128,7 @@ spec:
                 - --leader-elect
                 command:
                 - /manager
-                image: anuttinck/memcached-operator:v0.0.1
+                image: anuttinck/memcached-operator:0.0.2
                 livenessProbe:
                   httpGet:
                     path: /healthz
@@ -191,4 +210,4 @@ spec:
   provider:
     name: memcached-operator
     url: https://github.com/alexnuttinck/memcached-operator-tutorial
-  version: 0.0.1
+  version: 0.0.2
